@@ -1,0 +1,144 @@
+{# templates/employee/edit.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}LSMC | Modifier Employé{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Modifier Employé</h1>
+
+    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.name, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.firstName, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.firstName) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.phone, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.phone) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.userName, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.userName, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.userName) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.Grade, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.Grade, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.Grade) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.affiliation, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.affiliation, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.affiliation) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        {{ form_label(form.faru, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.faru, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.faru) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.mtt, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.mtt, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.mtt) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.asg, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.asg, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.asg) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.ed, null, {'attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.ed, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.ed) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5>Services hospitaliers</h5>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.pss) }}
+                        {{ form_label(form.pss, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.gos) }}
+                        {{ form_label(form.gos, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.gss) }}
+                        {{ form_label(form.gss, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.ams) }}
+                        {{ form_label(form.ams, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.vms) }}
+                        {{ form_label(form.vms, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.emt) }}
+                        {{ form_label(form.emt, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                </div>
+                    <div class="col-md-12">
+                    <h5>Certifications</h5>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.dsi) }}
+                        {{ form_label(form.dsi, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.zd) }}
+                        {{ form_label(form.zd, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.amf) }}
+                        {{ form_label(form.amf, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.fpc) }}
+                        {{ form_label(form.fpc, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.techasg) }}
+                        {{ form_label(form.techasg, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.sf) }}
+                        {{ form_label(form.sf, null, {'attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary">Sauvegarder</button>
+            <a href="{{ path('app_employee_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LSMC | Liste des Employés{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Liste des Employés</h1>
+    <a href="{{ path('app_employee_new') }}" class="btn btn-primary mb-3">Ajouter un employé</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Grade</th>
+                <th>Unité</th>
+                <th>Agrégation</th>
+                <th></th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.id }}</td>
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.firstName }}</td>
+                    <td>{{ employee.Grade }}</td>
+                    <td>/</td>
+                    <td>/</td>
+                    <td>
+                        {% if employee.isService %}
+                            <span class="badge bg-success text-white">En service</span>
+                        {% else %}
+                            <span class="badge bg-danger text-white">Hors service</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_employee_show', { id: employee.id }) }}" class="btn btn-info btn-sm">Voir les détails</a>
+                        <a href="{{ path('app_employee_edit', { id: employee.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        <form action="{{ path('app_employee_delete', { id: employee.id }) }}" method="post" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir licencier cet employé ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ employee.id) }}">
+                            <button class="btn btn-danger btn-sm" type="submit">Licencier</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucun employé trouvé</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

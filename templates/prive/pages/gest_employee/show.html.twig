@@ -1,0 +1,56 @@
+{# templates/employee/show.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}LSMC | Détails de l'Employé{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Détails de l'Employé</h1>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Employé ID: {{ employee.id }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Nom:</strong> {{ employee.name }}</p>
+                    <p><strong>Prénom:</strong> {{ employee.firstName }}</p>
+                    <p><strong>Grade:</strong> {{ employee.grade }}</p>
+                    <p><strong>Agregation:</strong> /</p>
+                    <p><strong>Unite:</strong> /</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Téléphone:</strong> {{ employee.phone }}</p>
+                    <p><strong>Affiliation:</strong> {{ employee.affiliation }}</p>
+                    <p><strong>Nom d'utilisateur:</strong> {{ employee.userName }}</p>
+                    <p><strong>Services:</strong> {{ employee.services }}</p>
+                    <p><strong>Lieu:</strong> {{ employee.lieu }}</p>
+                    <p><strong>Véhicule:</strong> {{ employee.vehicule }}</p>
+                </div>
+            </div>
+            <hr>
+            <p><strong>Détails:</strong> {{ employee.detail }}</p>
+            <p><strong>Date de début:</strong> {{ employee.startAt ? employee.startAt|date('d/m/Y H:i') : 'N/A' }}</p>
+            <p><strong>TSS:</strong> {{ employee.tss }}</p>
+            <p><strong>Dernier TSS:</strong> {{ employee.lastTss }}</p>
+            <p><strong>Total TSS:</strong> {{ employee.totalTss }}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <a href="{{ path('app_employee_edit', { id: employee.id }) }}" class="btn btn-warning">Modifier</a>
+
+            <!-- Formulaire de suppression avec confirmation -->
+            <form action="{{ path('app_employee_delete', { id: employee.id }) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir licencier cet employé ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ employee.id) }}">
+                <button class="btn btn-danger" type="submit">Supprimer</button>
+            </form>
+            
+            <a href="{{ path('app_employee_index') }}" class="btn btn-primary">Retour à la liste</a>
+        </div>
+    </div>
+
+    <!-- Espacement sous la carte -->
+    <div class="mb-5"></div>
+</div>
+{% endblock %}

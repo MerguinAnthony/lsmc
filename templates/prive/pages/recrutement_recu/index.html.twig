@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau des Candidatures{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Tableau des Candidatures</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Pseudo Discord</th>
+                    <th>Nom RP</th>
+                    <th>Date de Soumission</th>
+                    <th>Actions</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for candidate in candidates %}
+                    <tr>
+                        <td>{{ candidate.id }}</td>
+                        <td>{{ candidate.pseudoDiscord }}</td>
+                        <td>{{ candidate.rpFirstName }} {{ candidate.rpLastName }}</td>
+                        <td>{{ candidate.createdAt|date('d/m/Y H:i') }}</td>
+                        <td>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#candidateModal{{ candidate.id }}">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                            <a href="{{ path('app_recrutement_accept', {id: candidate.id}) }}" class="btn btn-success">
+                                <i class="fa fa-check"></i>
+                            </a>
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ candidate.id }}">
+                                <i class="fa fa-trash"></i>
+                            </button>
+
+                            <!-- Modal pour les détails -->
+                            <div class="modal fade" id="candidateModal{{ candidate.id }}" tabindex="-1" aria-labelledby="candidateModalLabel{{ candidate.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="candidateModalLabel{{ candidate.id }}">Détails de la candidature #{{ candidate.id }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>Nom HRP :</strong> {{ candidate.hrpFirstName }}</p>
+                                            <p><strong>Âge HRP :</strong> {{ candidate.hrpAge }}</p>
+                                            <p><strong>ID Unique :</strong> {{ candidate.idUniqueGame }}</p>
+                                            <p><strong>Nom RP :</strong> {{ candidate.rpFirstName }} {{ candidate.rpLastName }}</p>
+                                            <p><strong>Sexe RP :</strong> {{ candidate.rpSexe }}</p>
+                                            <p><strong>Date de Naissance RP :</strong> {{ candidate.rpBirthday|date('d/m/Y') }}</p>
+                                            <p><strong>Téléphone RP :</strong> {{ candidate.rpPhone }}</p>
+                                            <p><strong>Motivation :</strong> {{ candidate.Motivation }}</p>
+                                            <p><strong>Permis :</strong> 
+                                                {% if candidate.Voiture == 1 %}
+                                                    Voiture{% if candidate.Moto == 1 or candidate.avion == 1 or candidate.helicoptere == 1 or candidate.camion == 1 %}, {% endif %}
+                                                {% endif %}
+                                                {% if candidate.Moto == 1 %}
+                                                    Moto{% if candidate.avion == 1 or candidate.helicoptere == 1 or candidate.camion == 1 %}, {% endif %}
+                                                {% endif %}
+                                                {% if candidate.avion == 1 %}
+                                                    Permis Avion{% if candidate.helicoptere == 1 or candidate.camion == 1 %}, {% endif %}
+                                                {% endif %}
+                                                {% if candidate.helicoptere == 1 %}
+                                                    Permis Hélicoptère{% if candidate.camion == 1 %}, {% endif %}
+                                                {% endif %}
+                                                {% if candidate.camion == 1 %}
+                                                    Camion 
+                                                {% endif %}
+                                            <p><strong>Disponibilité :</strong> {{ candidate.Disponibility }}</p>
+                                            <p><strong>Status :</strong> 
+                                            {% if candidate.statusRec == 1 %}
+                                                <span class="badge bg-warning">En attente</span>
+                                            {% elseif candidate.statusRec == 2 %}
+                                                <span class="badge bg-success">Accepté</span>
+                                            {% endif %}
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            <a href="{{ path('app_recrutement_accept', {id: candidate.id}) }}" class="btn btn-success">
+                                                <i class="fa fa-check"></i>
+                                            </a>
+                                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ candidate.id }}">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal pour la confirmation de suppression -->
+                            <div class="modal fade" id="confirmDeleteModal{{ candidate.id }}" tabindex="-1" aria-labelledby="confirmDeleteModalLabel{{ candidate.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmDeleteModalLabel{{ candidate.id }}">Confirmer la suppression</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Êtes-vous sûr de vouloir supprimer cette candidature ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                            <a href="{{ path('app_recrutement_delete', {id: candidate.id}) }}" class="btn btn-danger">Supprimer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                                            {% if candidate.statusRec == 1 %}
+                                                <span class="badge bg-warning">En attente</span>
+                                            {% elseif candidate.statusRec == 2 %}
+                                                <span class="badge bg-success">Accepté</span>
+                                            {% endif %}
+                                            </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

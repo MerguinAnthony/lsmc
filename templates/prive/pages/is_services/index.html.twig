@@ -1,0 +1,244 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LSMC | Prise de Service{% endblock %}
+
+{% block body %}
+<style>
+#actuTime {
+  font-family: 'Arial', sans-serif;
+  font-size: 2rem; 
+  font-weight: bold;
+  color: #333; 
+  background-color: #f0f0f0;
+  padding: 10px; 
+  border-radius: 5px; 
+  display: inline-block; 
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #007bff;
+  color: #fff;
+  border-bottom: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .desktop-logo {
+    display: none;
+  }
+}
+</style>
+
+<section class="pds py-5">
+  <div class="container">
+    <div class="row text-center mb-4">
+      <div class="col-md-4">
+        <p class="text-start">
+          Fréquence principale radio 150 Hz<br>
+          Fréquence secondaire de 151 à 159 Hz
+        </p>
+      </div>
+      <div class="col-md-4">
+        <h1 class="text-uppercase">Prise de Service</h1>
+      </div>
+      <div class="col-md-4">
+        <p>
+          Heure actuelle<br>
+          <span id="actuTime"></span>
+        </p>
+      </div>
+    </div>
+
+    {% for message in app.flashes('success') %}
+      <div class="alert alert-success alert-dismissible fade show w-75 mx-auto" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+      <div class="alert alert-danger alert-dismissible fade show w-75 mx-auto" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+
+    <div class="row">
+      <div class="col-md-4 mb-4 mx-auto my-5">
+        <div class="card text-white bg-primary">
+          <div class="card-header text-center">
+            <h5 class="card-title">Mes Informations</h5>
+          </div>
+          {% if employee %}
+          <div class="card-body">
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <i class="bi bi-person-fill"></i>
+                <strong>Nom:</strong> {{ employee.name }}
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-person-fill"></i>
+                <strong>Prénom:</strong> {{ employee.firstName }}
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-star"></i>
+                <strong>Grade:</strong> {{ employee.grade }}
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-badge-ad"></i>
+                <strong>Agrégations:</strong> /
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-building"></i>
+                <strong>Unités:</strong> /
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-telephone"></i>
+                <strong>Téléphone:</strong> {{ employee.phone }}
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-people"></i>
+                <strong>Affiliation:</strong> {{ employee.affiliation }}
+              </li>
+              <li class="mb-2 d-flex align-items-center">
+                  <i class="bi bi-clock me-2"></i>
+                  <strong>Temps de service total:</strong>
+                  <span class="ms-2">
+                      {% if hours > 0 %}
+                          {{ hours }} {{ hours > 1 ? 'heures' : 'heure' }}
+                      {% endif %}
+                      {% if minutes > 0 or hours > 0 %}
+                          {% if hours > 0 %} et {% endif %}
+                          {{ minutes }} {{ minutes > 1 ? 'minutes' : 'minute' }}
+                      {% endif %}
+                      {% if seconds > 0 and (minutes == 0 and hours == 0) %}
+                          {% if minutes > 0 or hours > 0 %} et {% endif %}
+                          {{ seconds }} {{ seconds > 1 ? 'secondes' : 'seconde' }}
+                      {% endif %}
+                      {% if hours == 0 and minutes == 0 and seconds == 0 %}
+                          0 seconde
+                      {% endif %}
+                  </span>
+              </li>
+            </ul>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-4 mb-4 mx-auto my-auto">
+        {{ form_start(form, {'attr': {'id': 'serviceForm', 'class': 'bg-light p-4 rounded shadow'}}) }}
+          <div class="mb-3">
+            {{ form_label(form.services, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.services, {'attr': {'class': 'form-select'}}) }}
+            {{ form_errors(form.services) }}
+          </div>
+          <div class="mb-3">
+            {{ form_label(form.lieu, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.lieu, {'attr': {'class': 'form-select'}}) }}
+            {{ form_errors(form.lieu) }}
+          </div>
+          <div class="mb-3">
+            {{ form_label(form.vehicule, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.vehicule, {'attr': {'class': 'form-select'}}) }}
+            {{ form_errors(form.vehicule) }}
+          </div>
+          <div class="mb-3">
+            {{ form_label(form.detail, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.detail, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.detail) }}
+          </div>
+          <div class="d-grid">
+            {% if employee.isService == false %}
+              <a href="{{ path('app_is_services_start') }}" class="btn btn-success">Commencer le service</a>
+            {% else %}
+              <button type="submit" class="btn btn-primary mb-2">Mettre à jour</button>
+              <a href="{{ path('app_is_services_stop') }}" class="btn btn-danger">Terminer le service</a>
+            {% endif %}
+          </div>
+        {{ form_end(form) }}
+      </div>
+      <div class="col-md-4 text-center mx-auto my-auto desktop-logo">
+        <img src="{{ asset('assets/img/IMG_4358.png') }}" alt="logo" class="img-fluid rounded-circle" style="max-width: 200px; height: auto;">
+      </div>
+    </div>
+    {# tableau effectif en service #}
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header text-center">
+            <h5 class="card-title">Effectif en service</h5>
+          </div>
+          {% if nbService > 0 %}
+          <div class="card-body">
+            <div class="table-responsive d-none d-md-block">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Grade</th>
+                    <th>Unité</th>
+                    <th>agregation</th>
+                    <th>Service</th>
+                    <th>Heure de début</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for service in employees %}
+                  {% if service.isService == true %}
+                    <tr>
+                      <td>{{ service.name }}</td>
+                      <td>{{ service.firstName }}</td>
+                      <td>{{ service.grade }}</td>
+                      <td>/</td>
+                      <td>/</td>
+                      <td>{{ service.services }}</td>
+                      <td>{{ service.startAt|date('H:i:s') }}</td>
+                    </tr>
+                  {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="d-block d-md-none">
+              {% for service in employees %}
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ service.name }} {{ service.firstName }}</h5>
+                    <p class="card-text"><strong>Grade:</strong> {{ service.grade }}</p>
+                    <p class="card-text"><strong>Unité:</strong> /</p>
+                    <p class="card-text"><strong>Agrégation:</strong> /</p>
+                    <p class="card-text"><strong>Service:</strong> {{ service.services }}</p>
+                    <p class="card-text"><strong>Heure de début:</strong> {{ service.startAt|date('H:i:s') }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% else %}
+          <div class="card-body">
+            <p class="text-center">Aucun agent en service</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

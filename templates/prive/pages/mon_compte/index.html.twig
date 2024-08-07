@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte | LSMC{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="text-center mb-4">
+        <h1 class="display-4">Mon Compte</h1>
+        <p class="lead">Gérez vos informations personnelles et vos paramètres de compte.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="card-title">Changer de Mot de Passe</h4>
+                </div>
+                <div class="card-body text-center">
+                    <p class="card-text">Modifiez votre mot de passe pour sécuriser votre compte.</p>
+                    <a href="{{ path('app_change_password') }}" class="btn btn-primary">Modifier le Mot de Passe</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="card-title">Modifier mon numéro de téléphone</h4>
+                </div>
+                <div class="card-body text-center">
+                    <p class="card-text">Mettez à jour votre numéro de téléphone</p>
+                    <a href="{{ path('app_change_profile') }}" class="btn btn-primary">Modifier le Profil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
